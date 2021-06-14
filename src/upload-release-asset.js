@@ -33,11 +33,11 @@ async function run() {
     const {
       data: {
         browser_download_url: browserDownloadUrl,
-        id: id,
+        url: url,
       }
     } = uploadAssetResponse;
     
-    core.setOutput('url', browserDownloadUrl);
+    core.setOutput('url', url);
     // Set the output variable for use by other actions: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     core.setOutput('browser_download_url', browserDownloadUrl);
   } catch (error) {
