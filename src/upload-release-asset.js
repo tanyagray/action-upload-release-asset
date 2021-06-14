@@ -29,7 +29,7 @@ async function run() {
       file: fs.readFileSync(assetPath)
     });
     
-    console.log({ uploadAssetResponse });
+    core.info({ uploadAssetResponse });
 
     // Get the browser_download_url for the uploaded release asset from the response
     const {
