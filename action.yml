@@ -1,6 +1,6 @@
-name: 'Upload a Release Asset'
+name: 'Upload Release Asset'
 description: 'Upload a release asset to an existing release in your repository'
-author: 'GitHub'
+author: 'tanyagray'
 inputs:
   upload_url:
     description: 'The URL for uploading assets to the release'
@@ -15,6 +15,8 @@ inputs:
     description: 'The content-type of the asset you want to upload. See the supported Media Types here: https://www.iana.org/assignments/media-types/media-types.xhtml for more information'
     required: true
 outputs:
+  url:
+    description: 'The URL to use when accessing the asset via a REST API request'
   browser_download_url:
     description: 'The URL users can navigate to in order to download the uploaded asset'
 runs:
