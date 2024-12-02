@@ -1,11 +1,11 @@
 const core = require('@actions/core');
-const { GitHub } = require('@actions/github');
+const { getOctokit } = require('@actions/github');
 const fs = require('fs');
 
 async function run() {
   try {
-    // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
-    const github = new GitHub(process.env.GITHUB_TOKEN);
+    // Get authenticated GitHub client (Octokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
+    const github = getOctokit(process.env.GITHUB_TOKEN);
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const uploadUrl = core.getInput('upload_url', { required: true });
@@ -26,7 +26,7 @@ async function run() {
       url: uploadUrl,
       headers,
       name: assetName,
-      file: fs.readFileSync(assetPath)
+      data: fs.readFileSync(assetPath) // Use 'data' instead of 'file'
     });
 
     core.info({ uploadAssetResponse });
