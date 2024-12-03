@@ -29911,13 +29911,13 @@ function wrappy (fn, cb) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(7484);
-const { GitHub } = __nccwpck_require__(3228);
+const { getOctokit } = __nccwpck_require__(3228);
 const fs = __nccwpck_require__(9896);
 
 async function run() {
   try {
-    // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
-    const github = new GitHub(process.env.GITHUB_TOKEN);
+    // Get authenticated GitHub client (Octokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
+    const github = getOctokit(process.env.GITHUB_TOKEN);
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const uploadUrl = core.getInput('upload_url', { required: true });
@@ -29938,7 +29938,7 @@ async function run() {
       url: uploadUrl,
       headers,
       name: assetName,
-      file: fs.readFileSync(assetPath)
+      data: fs.readFileSync(assetPath) // Use 'data' instead of 'file'
     });
 
     core.info({ uploadAssetResponse });
