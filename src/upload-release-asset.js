@@ -4,41 +4,37 @@ const fs = require('fs');
 
 async function run() {
   try {
-    // Get authenticated GitHub client (Octokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
-    const github = getOctokit(process.env.GITHUB_TOKEN);
+    const token = process.env.GITHUB_TOKEN;
+    if (!token) throw new Error("GITHUB_TOKEN is missing");
 
-    // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
+    const github = getOctokit(token);
+
+    // Get inputs
     const uploadUrl = core.getInput('upload_url', { required: true });
     const assetPath = core.getInput('asset_path', { required: true });
     const assetName = core.getInput('asset_name', { required: true });
     const assetContentType = core.getInput('asset_content_type', { required: true });
 
-    // Determine content-length for header to upload asset
-    const contentLength = filePath => fs.statSync(filePath).size;
+    // Determine content-length for the file
+    const contentLength = fs.statSync(assetPath).size;
 
-    // Setup headers for API call, see Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-upload-release-asset for more information
-    const headers = { 'content-type': assetContentType, 'content-length': contentLength(assetPath) };
-
-    // Upload a release asset
-    // API Documentation: https://developer.github.com/v3/repos/releases/#upload-a-release-asset
-    // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-upload-release-asset
-    const uploadAssetResponse = await github.repos.uploadReleaseAsset({
+    // Upload asset
+    const uploadAssetResponse = await github.rest.repos.uploadReleaseAsset({
       url: uploadUrl,
-      headers,
+      headers: {
+        'content-type': assetContentType,
+        'content-length': contentLength,
+      },
       name: assetName,
-      data: fs.readFileSync(assetPath) // Use 'data' instead of 'file'
+      data: fs.createReadStream(assetPath), // Use stream for uploading large files
     });
 
-    core.info({ uploadAssetResponse });
+    core.info(`Upload Response: ${JSON.stringify(uploadAssetResponse)}`);
 
-    // Get the browser_download_url for the uploaded release asset from the response
-    const {
-      data: { browser_download_url: browserDownloadUrl, url }
-    } = uploadAssetResponse;
+    const { browser_download_url, url } = uploadAssetResponse.data;
 
+    core.setOutput('browser_download_url', browser_download_url);
     core.setOutput('url', url);
-    // Set the output variable for use by other actions: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
-    core.setOutput('browser_download_url', browserDownloadUrl);
   } catch (error) {
     core.setFailed(error.message);
   }
