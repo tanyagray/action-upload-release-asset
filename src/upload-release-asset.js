@@ -5,7 +5,7 @@ const fs = require('fs');
 async function run() {
   try {
     const token = process.env.GITHUB_TOKEN;
-    if (!token) throw new Error("GITHUB_TOKEN is missing");
+    if (!token) throw new Error('GITHUB_TOKEN is missing');
 
     const github = getOctokit(token);
 
@@ -23,17 +23,17 @@ async function run() {
       url: uploadUrl,
       headers: {
         'content-type': assetContentType,
-        'content-length': contentLength,
+        'content-length': contentLength
       },
       name: assetName,
-      data: fs.createReadStream(assetPath), // Use stream for uploading large files
+      data: fs.createReadStream(assetPath) // Use stream for uploading large files
     });
 
     core.info(`Upload Response: ${JSON.stringify(uploadAssetResponse)}`);
 
-    const { browser_download_url, url } = uploadAssetResponse.data;
+    const { browser_download_url: browserDownloadUrl, url } = uploadAssetResponse.data;
 
-    core.setOutput('browser_download_url', browser_download_url);
+    core.setOutput('browser_download_url', browserDownloadUrl);
     core.setOutput('url', url);
   } catch (error) {
     core.setFailed(error.message);
