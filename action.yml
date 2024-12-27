@@ -1,4 +1,4 @@
-name: 'Upload Release Asset'
+name: 'Upload A Release Asset'
 description: 'Upload a release asset to an existing release in your repository'
 author: 'classicrocker883'
 inputs:

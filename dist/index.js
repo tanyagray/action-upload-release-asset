@@ -572,8 +572,8 @@ class OidcClient {
             const res = yield httpclient
                 .getJson(id_token_url)
                 .catch(error => {
-                throw new Error(`Failed to get ID Token. \n
-        Error Code : ${error.statusCode}\n
+                throw new Error(`Failed to get ID Token. \n 
+        Error Code : ${error.statusCode}\n 
         Error Message: ${error.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -29917,7 +29917,7 @@ const fs = __nccwpck_require__(9896);
 async function run() {
   try {
     const token = process.env.GITHUB_TOKEN;
-    if (!token) throw new Error("GITHUB_TOKEN is missing");
+    if (!token) throw new Error('GITHUB_TOKEN is missing');
 
     const github = getOctokit(token);
 
@@ -29935,17 +29935,17 @@ async function run() {
       url: uploadUrl,
       headers: {
         'content-type': assetContentType,
-        'content-length': contentLength,
+        'content-length': contentLength
       },
       name: assetName,
-      data: fs.createReadStream(assetPath), // Use stream for uploading large files
+      data: fs.createReadStream(assetPath) // Use stream for uploading large files
     });
 
     core.info(`Upload Response: ${JSON.stringify(uploadAssetResponse)}`);
 
-    const { browser_download_url, url } = uploadAssetResponse.data;
+    const { browser_download_url: browserDownloadUrl, url } = uploadAssetResponse.data;
 
-    core.setOutput('browser_download_url', browser_download_url);
+    core.setOutput('browser_download_url', browserDownloadUrl);
     core.setOutput('url', url);
   } catch (error) {
     core.setFailed(error.message);
@@ -31826,7 +31826,7 @@ module.exports = parseParams
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/
+/******/ 	
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -31840,7 +31840,7 @@ module.exports = parseParams
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/
+/******/ 	
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -31849,16 +31849,16 @@ module.exports = parseParams
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/
+/******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 const run = __nccwpck_require__(8669);
