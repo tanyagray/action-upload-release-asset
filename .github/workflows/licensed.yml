@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v2.5.0
       - name: Set up Git
         run: |
-          git config --global user.email "andrewleduc88@yahoo.com"
-          git config --global user.name "classicrocker883"
+          git config user.name "Andrew"
+          git config user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
 
       - run: npm ci
       - name: Install licensed
