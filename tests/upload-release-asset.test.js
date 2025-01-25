@@ -3,11 +3,15 @@ jest.mock('@actions/github');
 jest.mock('fs');
 
 const core = require('@actions/core');
-const { GitHub, context } = require('@actions/github');
+const { getOctokit, context } = require('@actions/github');
 const fs = require('fs');
 const run = require('../src/upload-release-asset');
 
-/* eslint-disable no-undef */
+fs.promises = {
+  access: jest.fn(),
+  readFile: jest.fn().mockResolvedValue(Buffer.from('test content'))
+};
+
 describe('Upload Release Asset', () => {
   let uploadReleaseAsset;
   let content;
@@ -32,12 +36,14 @@ describe('Upload Release Asset', () => {
     };
 
     const github = {
-      repos: {
-        uploadReleaseAsset
+      rest: {
+        repos: {
+          uploadReleaseAsset
+        }
       }
     };
 
-    GitHub.mockImplementation(() => github);
+    getOctokit.mockImplementation(() => github);
   });
 
   test('Upload release asset endpoint is called', async () => {
