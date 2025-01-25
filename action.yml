@@ -1,6 +1,6 @@
 name: 'Upload A Release Asset'
 description: 'Upload a release asset to an existing release in your repository'
-author: 'classicrocker883'
+author: 'tanyagray'
 inputs:
   upload_url:
     description: 'The URL for uploading assets to the release'
